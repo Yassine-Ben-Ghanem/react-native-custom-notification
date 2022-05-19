@@ -20,3 +20,7 @@ const CustomNotification = NativeModules.CustomNotification
 export function multiply(a: number, b: number): Promise<number> {
   return CustomNotification.multiply(a, b);
 }
+
+export function test(a: number,b: number):number{
+  return CustomNotification.test(a,b);
+}

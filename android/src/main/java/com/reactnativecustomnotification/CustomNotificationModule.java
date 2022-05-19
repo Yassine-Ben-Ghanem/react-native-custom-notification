@@ -27,8 +27,13 @@ public class CustomNotificationModule extends ReactContextBaseJavaModule {
     // See https://reactnative.dev/docs/native-modules-android
     @ReactMethod
     public void multiply(int a, int b, Promise promise) {
-        promise.resolve(a * b);
+        promise.resolve(a + b);
     }
 
-    public static native int nativeMultiply(int a, int b);
+    @ReactMethod
+    public int test(int x, int y){
+      return (x+y)*2;
+    }
+
+    //public static native int nativeMultiply(int a, int b);
 }
