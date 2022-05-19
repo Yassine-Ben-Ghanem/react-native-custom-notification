@@ -24,3 +24,7 @@ export function multiply(a: number, b: number): Promise<number> {
 export function test(a: number,b: number):number{
   return CustomNotification.test(a,b);
 }
+
+export function CreateInformativeNotification(Title: String, Description: String, ImageUrl:String){
+  return CustomNotification.CreateInformativeNotification(Title,Description,ImageUrl);
+}
