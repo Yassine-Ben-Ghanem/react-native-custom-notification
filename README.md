@@ -11,11 +11,11 @@ npm install react-native-custom-notification
 ## Usage
 
 ```js
-import { multiply } from "react-native-custom-notification";
+import { CreateInformativeNotification } from "react-native-custom-notification";
 
 // ...
 
-const result = await multiply(3, 7);
+CreateInformativeNotification('Title','Description','ImageUrl');
 ```
 
 ## Contributing

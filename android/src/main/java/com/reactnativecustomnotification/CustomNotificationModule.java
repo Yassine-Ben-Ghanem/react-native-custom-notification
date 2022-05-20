@@ -6,7 +6,9 @@ import android.app.DownloadManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -72,11 +74,17 @@ public class CustomNotificationModule extends ReactContextBaseJavaModule {
       return (x+y)*2;
     }
 
+  String GROUP_KEY_WORK_EMAIL = "com.android.example.WORK_EMAIL";
+
     @ReactMethod
     public void CreateInformativeNotification(String Title,String Description, String ImageUrl){
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
         createNotificationChannel (reactContext,"channelId","informative notification");
       }
+
+      Intent intent = new Intent (reactContext,reactContext.getClass () );
+      intent.setFlags (Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+      PendingIntent pendingIntent = PendingIntent.getActivity (reactContext,0,intent,PendingIntent.FLAG_IMMUTABLE);
 
       Bitmap image = null;
       try {
@@ -96,16 +104,19 @@ public class CustomNotificationModule extends ReactContextBaseJavaModule {
         collapseNotification.setImageViewBitmap (R.id.avatar,image);
       }
 
-      Notification informativeNotification = new NotificationCompat.Builder (reactContext,"channelId")
+      NotificationCompat.Builder informativeNotification = new NotificationCompat.Builder (reactContext,"channelId")
         .setSmallIcon (R.drawable.avatar)
         .setStyle (new NotificationCompat.DecoratedCustomViewStyle ())
         .setCustomContentView (collapseNotification)
-        .setAutoCancel (true)
-        .build ();
+        .setGroup (GROUP_KEY_WORK_EMAIL)
+        .setGroupSummary (true)
+        .setPriority (NotificationCompat.PRIORITY_DEFAULT)
+        .setContentIntent (pendingIntent)
+        .setAutoCancel (true);
 
       NotificationManagerCompat notificationManager = NotificationManagerCompat.from (reactContext);
 
-      notificationManager.notify ((int) Math.random (),informativeNotification);
+      notificationManager.notify ((int) Math.random (),informativeNotification.build ());
     }
 
     //public static native int nativeMultiply(int a, int b);
