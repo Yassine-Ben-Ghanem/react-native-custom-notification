@@ -17,14 +17,18 @@ const CustomNotification = NativeModules.CustomNotification
       }
     );
 
-export function multiply(a: number, b: number): Promise<number> {
-  return CustomNotification.multiply(a, b);
+export function CreateInformativeNotification(title: String, description: String, imageUrl:String){
+  return CustomNotification.CreateInformativeNotification(title,description,imageUrl);
 }
 
-export function test(a: number,b: number):number{
-  return CustomNotification.test(a,b);
+export function CreateEvaluativeNotification(){
+  return CustomNotification.CreateEvaluativeNotification();
 }
 
-export function CreateInformativeNotification(Title: String, Description: String, ImageUrl:String){
-  return CustomNotification.CreateInformativeNotification(Title,Description,ImageUrl);
+export function CreateBigPictureNotification(title: String, description: String, avatarUrl:String, bigPicture:String){
+  return CustomNotification.CreateBigPictureNotification(title,description,avatarUrl,bigPicture)
+}
+
+export function CreatePromotionNotification(title: String, description: String, avatarUrl:String, bigPicture:String){
+  return CustomNotification.CreatePromotionNotification(title,description,avatarUrl,bigPicture)
 }
