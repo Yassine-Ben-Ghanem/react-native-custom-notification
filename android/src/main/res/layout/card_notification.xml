@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+
+  <ImageView
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:layout_marginHorizontal="30dp"
+    android:layout_gravity="center"
+    android:src="@drawable/pc"
+    />
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="30dp"
+    android:orientation="vertical"
+    >
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      style="@style/TextAppearance.Compat.Notification.Title"
+      android:text="Title of product"
+      android:textSize="20dp"
+      android:textStyle="bold"/>
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      style="@style/TextAppearance.Compat.Notification.Info"
+      android:text="hello this product in promotion !!!!!!!!!!!!!!!!!!!!!!!!!!!"
+      />
+
+  </LinearLayout>
+
+</LinearLayout>

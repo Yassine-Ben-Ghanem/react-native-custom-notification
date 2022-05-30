@@ -14,18 +14,25 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RemoteViews;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.module.annotations.ReactModule;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -47,14 +54,23 @@ public class CustomNotificationModule extends ReactContextBaseJavaModule {
         return NAME;
     }
 
+    private void sendEvent(ReactContext reactContext, String eventName,String message){
+      WritableMap params = Arguments.createMap ();
+      params.putString ("message",message);
+
+      reactContext
+        .getJSModule (DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+        .emit (eventName,params);
+    }
+
   @RequiresApi(api = Build.VERSION_CODES.O)
   @ReactMethod
-    public void createNotificationChannel(String ChannelId, String name){
+    public void createNotificationChannel(String channelId, String name){
       NotificationManager notificationManager = (NotificationManager) reactContext.getSystemService (Context.NOTIFICATION_SERVICE);
 
-      if (notificationManager != null && notificationManager.getNotificationChannel (ChannelId) == null) {
+      if (notificationManager != null && notificationManager.getNotificationChannel (channelId) == null) {
         int importance = NotificationManager.IMPORTANCE_HIGH;
-        NotificationChannel channel = new NotificationChannel (ChannelId, name, importance);
+        NotificationChannel channel = new NotificationChannel (channelId, name,importance);
         notificationManager.createNotificationChannel (channel);
         Log.d (TAG, "channel create");
       }else {
@@ -75,7 +91,7 @@ public class CustomNotificationModule extends ReactContextBaseJavaModule {
         createNotificationChannel ("channelId","informative notification");
       }
 
-      Intent intent = new Intent (reactContext,reactContext.getClass () );
+      Intent intent = new Intent (reactContext.getPackageName () );
       intent.setFlags (Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
       PendingIntent pendingIntent = PendingIntent.getActivity (reactContext,0,intent,PendingIntent.FLAG_IMMUTABLE);
 
@@ -86,8 +102,7 @@ public class CustomNotificationModule extends ReactContextBaseJavaModule {
       } catch (IOException e) {
         Log.d (TAG, String.valueOf (e));
       }
-
-
+      
       RemoteViews collapseNotification = new RemoteViews (reactContext.getPackageName (),R.layout.collapse_notification);
       collapseNotification.setTextViewText (R.id.title,title);
       collapseNotification.setTextViewText (R.id.description,description);
@@ -100,11 +115,14 @@ public class CustomNotificationModule extends ReactContextBaseJavaModule {
       NotificationCompat.Builder informativeNotification = new NotificationCompat.Builder (reactContext,"channelId")
         .setSmallIcon (R.drawable.avatar)
         .setStyle (new NotificationCompat.DecoratedCustomViewStyle ())
+        .setContentIntent (pendingIntent)
         .setCustomContentView (collapseNotification)
         .setGroup (GROUP_KEY_WORK_EMAIL)
         .setGroupSummary (true)
         .setPriority (NotificationCompat.PRIORITY_DEFAULT)
-        .setContentIntent (pendingIntent)
+        .setNumber (1)
+        .setBadgeIconType (NotificationCompat.BADGE_ICON_LARGE)
+       //.addAction (sendEvent (reactContext,"action","message") )
         .setAutoCancel (true);
 
       NotificationManagerCompat notificationManager = NotificationManagerCompat.from (reactContext);
@@ -122,7 +140,7 @@ public class CustomNotificationModule extends ReactContextBaseJavaModule {
       PendingIntent pendingIntent = PendingIntent.getActivity (reactContext,0,intent,PendingIntent.FLAG_IMMUTABLE);
 
 
-      RemoteViews collapseNotification = new RemoteViews (reactContext.getPackageName (),R.layout.evaluative_notification);
+      RemoteViews collapseNotification = new RemoteViews (reactContext.getPackageName (),R.layout.caroussel_layout_notification);
 
       NotificationCompat.Builder evaluativeNotification = new NotificationCompat.Builder (reactContext,"channelId")
         .setSmallIcon (R.drawable.avatar)
@@ -130,8 +148,10 @@ public class CustomNotificationModule extends ReactContextBaseJavaModule {
         .setCustomContentView (collapseNotification)
         .setGroup (GROUP_KEY_WORK_EMAIL)
         .setGroupSummary (true)
+        .setBadgeIconType (NotificationCompat.BADGE_ICON_LARGE)
         .setPriority (NotificationCompat.PRIORITY_DEFAULT)
         .setContentIntent (pendingIntent)
+        .setNumber (1)
         .setAutoCancel (true);
 
       NotificationManagerCompat notificationManager = NotificationManagerCompat.from (reactContext);
@@ -189,12 +209,15 @@ public class CustomNotificationModule extends ReactContextBaseJavaModule {
       NotificationCompat.Builder bigPictureNotification = new NotificationCompat.Builder (reactContext,"channelId")
         .setSmallIcon (R.drawable.avatar)
         .setStyle (new NotificationCompat.DecoratedCustomViewStyle ())
+        //.setContentIntent (sendEvent (reactContext,'efeaf','gfdsgds'))
         .setCustomContentView (collapseNotification)
         .setCustomBigContentView (ExpandedNotification)
         .setGroup (GROUP_KEY_WORK_EMAIL)
         .setGroupSummary (true)
         .setPriority (NotificationCompat.PRIORITY_DEFAULT)
         .setContentIntent (pendingIntent)
+        .setBadgeIconType (NotificationCompat.BADGE_ICON_LARGE)
+        .setNumber (1)
         .setAutoCancel (true);
 
 
@@ -263,11 +286,22 @@ public class CustomNotificationModule extends ReactContextBaseJavaModule {
         .setGroupSummary (true)
         .setPriority (NotificationCompat.PRIORITY_DEFAULT)
         .setContentIntent (pendingIntent)
+        .setBadgeIconType (NotificationCompat.BADGE_ICON_LARGE)
+        .setNumber (1)
         .setAutoCancel (true);
+
 
       NotificationManagerCompat notificationManager = NotificationManagerCompat.from (reactContext);
 
       notificationManager.notify ((int) Math.random (),bigPictureNotification.build ());
+    }
+
+
+    @ReactMethod
+  public void button(){
+      RemoteViews collapseNotification = new RemoteViews (reactContext.getPackageName (),R.layout.button_notification);
+     // Button button1 = collapseNotification.
+
     }
     //public static native int nativeMultiply(int a, int b);
 }

@@ -1,6 +1,6 @@
 {
   "name": "react-native-custom-notification",
-  "version": "0.2.7",
+  "version": "0.3.04",
   "description": "Custom push notification SDK",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",

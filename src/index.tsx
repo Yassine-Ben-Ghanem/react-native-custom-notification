@@ -17,8 +17,8 @@ const CustomNotification = NativeModules.CustomNotification
       }
     );
 
-export function CreateInformativeNotification(title: String, description: String, imageUrl:String){
-  return CustomNotification.CreateInformativeNotification(title,description,imageUrl);
+export function CreateInformativeNotification(title: String, description: String, imageUrl:String,onPress:()=>{}){
+  return CustomNotification.CreateInformativeNotification(title,description,imageUrl,onPress);
 }
 
 export function CreateEvaluativeNotification(){
