@@ -17,18 +17,26 @@ const CustomNotification = NativeModules.CustomNotification
       }
     );
 
-export function CreateInformativeNotification(title: String, description: String, imageUrl:String,onPress:()=>{}){
-  return CustomNotification.CreateInformativeNotification(title,description,imageUrl,onPress);
+export function CreateInformativeNotification(title: String, description: String, imageUrl:String,actionNotification:String){
+  return CustomNotification.CreateInformativeNotification(title,description,imageUrl,actionNotification);
 }
 
-export function CreateEvaluativeNotification(){
-  return CustomNotification.CreateEvaluativeNotification();
+export function CreateAnimationNotification(){
+  return CustomNotification.CreateAnimationNotification();
 }
 
-export function CreateBigPictureNotification(title: String, description: String, avatarUrl:String, bigPicture:String){
-  return CustomNotification.CreateBigPictureNotification(title,description,avatarUrl,bigPicture)
+export function CreateBigPictureNotification(title: String, description: String, avatarUrl:String, bigPictureUrl:String,actionNotification:String){
+  return CustomNotification.CreateBigPictureNotification(title,description,avatarUrl,bigPictureUrl,actionNotification,)
 }
 
-export function CreatePromotionNotification(title: String, description: String, avatarUrl:String, bigPicture:String){
-  return CustomNotification.CreatePromotionNotification(title,description,avatarUrl,bigPicture)
+export function CreateProductNotification(title: String, description: String, avatarUrl:String, bigPicture:String,productTitle:String,productDescription:String,actionNotification:String){
+  return CustomNotification.CreateProductNotification(title,description,avatarUrl,bigPicture,productTitle,productDescription,actionNotification)
+}
+
+// export function CreateActionButtonNotification(){
+//   return CustomNotification.button()
+// }
+
+export function CreateNotificationUrl(title: String, description: String, imageUrl:String,url:string,message:String){
+  return CustomNotification.CreateNotificationUrl(title,description,imageUrl,url,message)
 }

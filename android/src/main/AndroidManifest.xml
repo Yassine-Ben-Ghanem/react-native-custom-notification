@@ -1,4 +1,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.reactnativecustomnotification">
+  <!--
+<application>
 
+<receiver android:name=".Button_listener" android:exported="true" android:enabled="true">
+  <intent-filter>
+    <action android:name="button_clicked"/>
+  </intent-filter>
+</receiver>
+
+<service android:name=".button_action"></service>
+
+  </application>
+  -->
 </manifest>

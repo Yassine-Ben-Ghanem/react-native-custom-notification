@@ -10,14 +10,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     />
-
-
-
-  <ImageView
-    android:id="@+id/bigPicture"
+  <TextView
+    android:id="@+id/msg"
     android:layout_width="match_parent"
-    android:layout_height="180dp"
-    android:layout_gravity="center"
-    android:layout_marginTop="4dp"
-    android:visibility="visible" />
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:text="hello"
+    style="@style/TextAppearance.Compat.Notification.Line2"
+    android:textSize="25dp"
+    android:textColor="#A9A9A9"/>
+
+
 </LinearLayout>
